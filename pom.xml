@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.probestack.forgesphere</groupId>
-	<artifactId>fsp-onboarding-svc</artifactId>
+	<artifactId>fsp-gatewayonboarding-svc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>fsp-onboarding-svc</name>
+	<name>fsp-gatewayonboarding-svc</name>
 	<description>Automate API Life Cycle</description>
 	<url/>
 	<licenses>

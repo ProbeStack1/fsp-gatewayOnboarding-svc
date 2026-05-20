@@ -13,7 +13,7 @@ import com.probestack.forgesphere.onboarding.service.OnboardingService;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class OnboardingController {
 
     private final OnboardingService onboardingService;

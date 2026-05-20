@@ -29,7 +29,7 @@ WORKDIR /app
 RUN addgroup -S spring && adduser -S spring -G spring
 
 # Copy the built JAR from builder stage (as root, before switching user)
-COPY --from=builder /app/target/fsp-onboarding-svc-*.jar app.jar
+COPY --from=builder /app/target/fsp-gatewayonboarding-svc-*.jar app.jar
 
 # Change ownership to spring user
 RUN chown spring:spring app.jar
@@ -48,7 +48,7 @@ EXPOSE ${PORT}
 
 # Health check (using wget which is available in alpine)
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/onboarding/actuator/health || exit 1
+CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/gatewayonboarding/actuator/health || exit 1
 
 # Run the application
 ENTRYPOINT ["sh", "-c", "java -jar -Dserver.port=${PORT} app.jar"]
