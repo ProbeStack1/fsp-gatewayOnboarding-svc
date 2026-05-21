@@ -40,6 +40,12 @@ public class OnboardingController {
         return ResponseEntity.ok(onboardingService.getApplication(id));
     }
 
+    @GetMapping("/applications")
+    public ResponseEntity<java.util.List<OnboardingApplicationResponse>> getAll() {
+        return ResponseEntity.ok(onboardingService.getAllApplications());
+    }
+
+
     @GetMapping("/approval/confirm")
     public ResponseEntity<ApprovalConfirmResponse> confirm(
             @RequestParam String token,

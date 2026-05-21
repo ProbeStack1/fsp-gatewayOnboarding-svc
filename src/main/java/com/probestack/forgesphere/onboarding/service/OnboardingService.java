@@ -90,7 +90,14 @@ public class OnboardingService {
         return toResponse(app);
     }
 
+    public List<OnboardingApplicationResponse> getAllApplications() {
+        return repository.findAll().stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
     public com.probestack.forgesphere.onboarding.dto.ApprovalConfirmResponse confirmByToken(
+
             String token,
             OnboardingApplicationStatus decision) {
 
