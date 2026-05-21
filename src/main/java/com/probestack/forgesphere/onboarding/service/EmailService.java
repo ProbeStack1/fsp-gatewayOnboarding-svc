@@ -26,7 +26,7 @@ public class EmailService {
     @Value("${mail.to.info}")
     private String infoTo;
 
-    @Value("${sendgrid.api-key}")
+    @Value("${sendgrid.cred}")
     private String sendGridApiKey;
 
     @Value("${sendgrid.template-id}")
