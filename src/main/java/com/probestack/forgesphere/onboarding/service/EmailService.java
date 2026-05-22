@@ -1,5 +1,3 @@
-// EmailService.java
-
 package com.probestack.forgesphere.onboarding.service;
 
 import java.io.IOException;
@@ -13,7 +11,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.probestack.forgesphere.onboarding.service.SecretsService;
+
+
 import com.probestack.forgesphere.onboarding.model.OnboardingApplication;
+
+import com.probestack.forgesphere.onboarding.model.OnboardingApplication.GatewayOrganizationRequest;
+
 
 @Service
 public class EmailService {
@@ -26,11 +30,14 @@ public class EmailService {
     @Value("${mail.to.info}")
     private String infoTo;
 
-    @Value("${sendgrid.mail-api-key}")
-    private String sendGridApiKey;
-
     @Value("${sendgrid.template-id}")
     private String templateId;
+
+    private final SecretsService secretsService;
+
+    public EmailService(SecretsService secretsService) {
+        this.secretsService = secretsService;
+    }
 
     public void sendApprovalEmail(
             OnboardingApplication app,
@@ -39,9 +46,14 @@ public class EmailService {
 
         log.info("Starting SendGrid email process");
 
+        String sendGridApiKey = getSendGridApiKey();
+
         String requesterName =
                 app.getStakeholder() != null
-                        ? (app.getStakeholder().getFirstName() + " " + app.getStakeholder().getLastName()).trim()
+                        ? (app.getStakeholder().getFirstName()
+                                        + " "
+                                        + app.getStakeholder().getLastName())
+                                .trim()
                         : "Unknown User";
 
         String requesterEmail =
@@ -55,9 +67,11 @@ public class EmailService {
 
         var gatewayOrgs = app.getGatewayOrganizations();
 
+
         if (gatewayOrgs != null && !gatewayOrgs.isEmpty()) {
 
-            OnboardingApplication.GatewayOrganizationRequest org = gatewayOrgs.get(0);
+            var org = gatewayOrgs.get(0);
+
 
             if (org.getName() != null) {
                 organization = org.getName();
@@ -97,15 +111,15 @@ public class EmailService {
         log.info("Region         : {}", region);
 
         String json =
-                "{"
-                        + "\"from\":{"
-                        + "\"email\":\"" + escapeJson(mailFrom) + "\""
+                "{" 
+                        + "\"from\":{" 
+                        + "\"email\":\"" + escapeJson(mailFrom) + "\"" 
                         + "},"
                         + "\"personalizations\":[{" 
                         + "\"to\":[{" 
-                        + "\"email\":\"" + escapeJson(infoTo) + "\""
+                        + "\"email\":\"" + escapeJson(infoTo) + "\"" 
                         + "}],"
-                        + "\"dynamic_template_data\":{"
+                        + "\"dynamic_template_data\":{" 
                         + "\"requesterName\":\"" + escapeJson(requesterName) + "\"," 
                         + "\"organization\":\"" + escapeJson(organization) + "\"," 
                         + "\"environment\":\"" + escapeJson(environment) + "\"," 
@@ -114,7 +128,7 @@ public class EmailService {
                         + "\"rejectUrl\":\"" + escapeJson(rejectUrl) + "\""
                         + "}"
                         + "}],"
-                        + "\"reply_to\":{"
+                        + "\"reply_to\":{" 
                         + "\"email\":\"" + escapeJson(requesterEmail) + "\""
                         + "},"
                         + "\"template_id\":\"" + escapeJson(templateId) + "\""
@@ -163,6 +177,21 @@ public class EmailService {
 
             throw new RuntimeException("SendGrid send failed", e);
         }
+    }
+
+    private String getSendGridApiKey() {
+        // Mongo secret format example:
+        // name: SENDGRID_API_KEY
+        // value: mail-api-key=SG....
+        String rawValue = secretsService.getSecretValue("SENDGRID_API_KEY");
+        String prefix = "mail-api-key=";
+
+        if (rawValue == null || !rawValue.startsWith(prefix)) {
+            throw new IllegalStateException(
+                    "Invalid SENDGRID_API_KEY secret format. Expected prefix: " + prefix);
+        }
+
+        return rawValue.substring(prefix.length());
     }
 
     private static String escapeJson(String s) {
