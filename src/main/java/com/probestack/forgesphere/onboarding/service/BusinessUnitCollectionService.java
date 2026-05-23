@@ -32,9 +32,12 @@ public class BusinessUnitCollectionService {
         // so we always create a new document.
         BusinessUnitCollection entity = toEntity(request, null);
         entity.setId(null);
+        entity.setCreatedAt(java.time.Instant.now());
+        entity.setUpdatedAt(java.time.Instant.now());
         BusinessUnitCollection saved = repository.save(entity);
         return toResponse(saved);
     }
+
 
     public BusinessUnitResponse getById(String id) {
         BusinessUnitCollection entity = repository.findById(id).orElseThrow();
