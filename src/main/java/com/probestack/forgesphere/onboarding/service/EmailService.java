@@ -92,15 +92,16 @@ public class EmailService {
 
         String approveUrl =
                 baseUrl
-                        + "/api/approval/confirm?token="
+                        + "/api/v1/approval/confirm?token="
                         + approvalToken
                         + "&decision=APPROVED";
 
         String rejectUrl =
                 baseUrl
-                        + "/api/approval/confirm?token="
+                        + "/api/v1/approval/confirm?token="
                         + approvalToken
                         + "&decision=REJECTED";
+
 
         log.info("Mail From      : {}", mailFrom);
         log.info("Mail To        : {}", infoTo);
