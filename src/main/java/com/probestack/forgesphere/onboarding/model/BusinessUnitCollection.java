@@ -1,0 +1,306 @@
+package com.probestack.forgesphere.onboarding.model;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "business_units")
+public class BusinessUnitCollection {
+
+    @Id
+    private String id;
+
+    private java.time.Instant createdAt;
+    private java.time.Instant updatedAt;
+
+    private String teamName;
+    private String applicationName;
+    private String applicationId;
+
+
+    private String projectOwner;
+    private String ownerEmail;
+    private String projectSME;
+    private String projectSMEEmail;
+    private String projectDLEmail;
+    private String expectedGoLiveDate; // yyyy-MM-dd (UI uses <input type="date">)
+    private String testerName;
+    private String testerEmail;
+    private String servicenowGroupName;
+    private String servicenowEmail;
+
+    private List<BusinessUnitMember> members = new ArrayList<>();
+    private List<BusinessUnitConsumer> consumers = new ArrayList<>();
+
+    public BusinessUnitCollection() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public java.time.Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(java.time.Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public java.time.Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(java.time.Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public String getApplicationName() {
+        return applicationName;
+    }
+
+    public void setApplicationName(String applicationName) {
+        this.applicationName = applicationName;
+    }
+
+    public String getApplicationId() {
+        return applicationId;
+    }
+
+    public void setApplicationId(String applicationId) {
+        this.applicationId = applicationId;
+    }
+
+    public String getProjectOwner() {
+        return projectOwner;
+    }
+
+    public void setProjectOwner(String projectOwner) {
+        this.projectOwner = projectOwner;
+    }
+
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
+    }
+
+    public String getProjectSME() {
+        return projectSME;
+    }
+
+    public void setProjectSME(String projectSME) {
+        this.projectSME = projectSME;
+    }
+
+    public String getProjectSMEEmail() {
+        return projectSMEEmail;
+    }
+
+    public void setProjectSMEEmail(String projectSMEEmail) {
+        this.projectSMEEmail = projectSMEEmail;
+    }
+
+    public String getProjectDLEmail() {
+        return projectDLEmail;
+    }
+
+    public void setProjectDLEmail(String projectDLEmail) {
+        this.projectDLEmail = projectDLEmail;
+    }
+
+    public String getExpectedGoLiveDate() {
+        return expectedGoLiveDate;
+    }
+
+    public void setExpectedGoLiveDate(String expectedGoLiveDate) {
+        this.expectedGoLiveDate = expectedGoLiveDate;
+    }
+
+    public String getTesterName() {
+        return testerName;
+    }
+
+    public void setTesterName(String testerName) {
+        this.testerName = testerName;
+    }
+
+    public String getTesterEmail() {
+        return testerEmail;
+    }
+
+    public void setTesterEmail(String testerEmail) {
+        this.testerEmail = testerEmail;
+    }
+
+    public String getServicenowGroupName() {
+        return servicenowGroupName;
+    }
+
+    public void setServicenowGroupName(String servicenowGroupName) {
+        this.servicenowGroupName = servicenowGroupName;
+    }
+
+    public String getServicenowEmail() {
+        return servicenowEmail;
+    }
+
+    public void setServicenowEmail(String servicenowEmail) {
+        this.servicenowEmail = servicenowEmail;
+    }
+
+    public List<BusinessUnitMember> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<BusinessUnitMember> members) {
+        this.members = members;
+    }
+
+    public List<BusinessUnitConsumer> getConsumers() {
+        return consumers;
+    }
+
+    public void setConsumers(List<BusinessUnitConsumer> consumers) {
+        this.consumers = consumers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        BusinessUnitCollection that = (BusinessUnitCollection) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public static class BusinessUnitMember {
+        private String id; // client-side id or generated by server
+        private String name;
+        private String email;
+        private String role;
+
+        public BusinessUnitMember() {
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getRole() {
+            return role;
+        }
+
+        public void setRole(String role) {
+            this.role = role;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
+            BusinessUnitMember that = (BusinessUnitMember) o;
+            return Objects.equals(id, that.id);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(id);
+        }
+    }
+
+    public static class BusinessUnitConsumer {
+        private String id; // client-side id or generated by server
+        private String consumerId;
+        private String name;
+
+        public BusinessUnitConsumer() {
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getConsumerId() {
+            return consumerId;
+        }
+
+        public void setConsumerId(String consumerId) {
+            this.consumerId = consumerId;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
+            BusinessUnitConsumer that = (BusinessUnitConsumer) o;
+            return Objects.equals(id, that.id);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(id);
+        }
+    }
+}
+

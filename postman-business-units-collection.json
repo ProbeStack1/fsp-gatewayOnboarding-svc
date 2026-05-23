@@ -1,0 +1,190 @@
+{
+  "info": {
+    "name": "Business Units (FSP Gateway Onboarding)",
+    "description": "Postman collection for Business Unit APIs: CRUD for business unit + nested members/consumers.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.1.1"
+  },
+  "item": [
+    {
+      "name": "1) Create Business Unit (POST /api/v1/business-units)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/business-units",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "business-units"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"teamName\": \"forgesphere\",\n  \"applicationName\": \"forgesphere\",\n  \"applicationId\": \"12\",\n\n  \"projectOwner\": \"Simran\",\n  \"ownerEmail\": \"simransandhyadash@gmail.com\",\n  \"projectSME\": \"Abhisek\",\n  \"projectSMEEmail\": \"abhisek@gmail.com\",\n  \"projectDLEmail\": \"simransandhyadash@gmail.com\",\n\n  \"expectedGoLiveDate\": \"2026-11-12\",\n\n  \"testerName\": \"simran\",\n  \"testerEmail\": \"simransandhyadash@gmail.com\",\n\n  \"servicenowGroupName\": \"se now\",\n  \"servicenowEmail\": \"snow@gmail.com\",\n\n  \"members\": [\n    {\n      \"id\": \"m-1\",\n      \"name\": \"John Doe\",\n      \"email\": \"john.doe@example.com\"\n    },\n    {\n      \"id\": \"m-2\",\n      \"name\": \"Jane Smith\",\n      \"email\": \"jane.smith@example.com\"\n    }\n  ],\n\n  \"consumers\": [\n    {\n      \"id\": \"c-1\",\n      \"consumerId\": \"my-consumer1\",\n      \"name\": \"Demo 1\"\n    },\n    {\n      \"id\": \"c-2\",\n      \"consumerId\": \"my-consumer\",\n      \"name\": \"Demo 1\"\n    }\n  ]\n}\n"
+        }
+      }
+    },
+    {
+      "name": "2) Get All Business Units (GET /api/v1/business-units)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/business-units",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "business-units"]
+        }
+      }
+    },
+    {
+      "name": "3) Get Business Unit By Id (GET /api/v1/business-units/:id)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/business-units/{{businessUnitId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "business-units", "{{businessUnitId}}"]
+        }
+      }
+    },
+    {
+      "name": "4) Update Business Unit (PUT /api/v1/business-units/:id)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/business-units/{{businessUnitId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "business-units", "{{businessUnitId}}"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"teamName\": \"forgesphere-updated\",\n  \"applicationName\": \"forgesphere\",\n  \"applicationId\": \"12\",\n\n  \"projectOwner\": \"Simran\",\n  \"ownerEmail\": \"simransandhyadash@gmail.com\",\n  \"projectSME\": \"Abhisek\",\n  \"projectSMEEmail\": \"abhisek@gmail.com\",\n  \"projectDLEmail\": \"simransandhyadash@gmail.com\",\n\n  \"expectedGoLiveDate\": \"2026-11-15\",\n\n  \"testerName\": \"simran\",\n  \"testerEmail\": \"simransandhyadash@gmail.com\",\n\n  \"servicenowGroupName\": \"se now\",\n  \"servicenowEmail\": \"snow@gmail.com\",\n\n  \"members\": [\n    {\n      \"id\": \"m-1\",\n      \"name\": \"John Doe\",\n      \"email\": \"john.doe@example.com\"\n    }\n  ],\n\n  \"consumers\": [\n    {\n      \"id\": \"c-1\",\n      \"consumerId\": \"my-consumer1\",\n      \"name\": \"Demo 1\"\n    }\n  ]\n}\n"
+        }
+      }
+    },
+    {
+      "name": "5) Delete Business Unit (DELETE /api/v1/business-units/:id)",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/business-units/{{businessUnitId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "business-units", "{{businessUnitId}}"]
+        }
+      }
+    },
+    {
+      "name": "6) Get Members (GET /api/v1/business-units/:id/members)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/business-units/{{businessUnitId}}/members",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "business-units", "{{businessUnitId}}", "members"]
+        }
+      }
+    },
+    {
+      "name": "7) Upsert Members (PUT /api/v1/business-units/:id/members)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/business-units/{{businessUnitId}}/members",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "business-units", "{{businessUnitId}}", "members"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "[\n  {\n    \"id\": \"m-1\",\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\"\n  },\n  {\n    \"id\": \"m-3\",\n    \"name\": \"Alice Brown\",\n    \"email\": \"alice.brown@example.com\"\n  }\n]\n"
+        }
+      }
+    },
+    {
+      "name": "8) Delete Member (DELETE /api/v1/business-units/:id/members/:memberId)",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/business-units/{{businessUnitId}}/members/{{memberId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "business-units", "{{businessUnitId}}", "members", "{{memberId}}"]
+        }
+      }
+    },
+    {
+      "name": "9) Get Consumers (GET /api/v1/business-units/:id/consumers)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/business-units/{{businessUnitId}}/consumers",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "business-units", "{{businessUnitId}}", "consumers"]
+        }
+      }
+    },
+    {
+      "name": "10) Upsert Consumers (PUT /api/v1/business-units/:id/consumers)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/business-units/{{businessUnitId}}/consumers",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "business-units", "{{businessUnitId}}", "consumers"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "[\n  {\n    \"id\": \"c-1\",\n    \"consumerId\": \"my-consumer1\",\n    \"name\": \"Demo 1\"\n  },\n  {\n    \"id\": \"c-4\",\n    \"consumerId\": \"HGHG\",\n    \"name\": \"hjgFGFj\"\n  }\n]\n"
+        }
+      }
+    },
+    {
+      "name": "11) Delete Consumer (DELETE /api/v1/business-units/:id/consumers/:consumerRecordId)",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/business-units/{{businessUnitId}}/consumers/{{consumerRecordId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "business-units", "{{businessUnitId}}", "consumers", "{{consumerRecordId}}"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081/gatewayonboarding"
+    },
+    {
+      "key": "businessUnitId",
+      "value": "REPLACE_WITH_ID"
+    },
+    {
+      "key": "memberId",
+      "value": "m-1"
+    },
+    {
+      "key": "consumerRecordId",
+      "value": "c-1"
+    }
+  ]
+}
+
