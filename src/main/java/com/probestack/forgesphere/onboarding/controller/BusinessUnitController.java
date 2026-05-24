@@ -18,9 +18,11 @@ import com.probestack.forgesphere.onboarding.dto.BusinessUnitRequest;
 import com.probestack.forgesphere.onboarding.dto.BusinessUnitResponse;
 import com.probestack.forgesphere.onboarding.service.BusinessUnitCollectionService;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/v1" + AppConstants.BUSINESS_UNIT_PATH)
 public class BusinessUnitController {
+
 
     private final BusinessUnitCollectionService service;
 
