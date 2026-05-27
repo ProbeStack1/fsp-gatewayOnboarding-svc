@@ -1,0 +1,47 @@
+{
+  "info": {
+    "name": "User -> Gateway Organizations (FSP Gateway Onboarding)",
+    "description": "Postman collection for checking whether a user (by email) is a member of any business unit, then returning gateway organizations for the related onboarding(s).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "item": [
+    {
+      "name": "1) Get Gateway Organizations For User (GET /api/v1/user/{userid}/gateway-organizations)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/user/{{userid}}/gateway-organizations",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "user", "{{userid}}", "gateway-organizations"]
+        }
+      }
+    },
+    {
+      "name": "2) Example (user not member) - should return member=false",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/user/{{nonMemberUserid}}/gateway-organizations",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "user", "{{nonMemberUserid}}", "gateway-organizations"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081/gatewayonboarding"
+    },
+    {
+      "key": "userid",
+      "value": "john.doe@example.com"
+    },
+    {
+      "key": "nonMemberUserid",
+      "value": "not-a-member@example.com"
+    }
+  ]
+}
+
