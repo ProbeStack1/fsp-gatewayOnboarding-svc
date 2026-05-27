@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.probestack.forgesphere.onboarding.dto.GatewayOrganizationEnvironmentTypeResponse;
 import com.probestack.forgesphere.onboarding.dto.GatewayOrganizationResponse;
+
 import com.probestack.forgesphere.onboarding.dto.UserGatewayOrganizationsResponse;
 import com.probestack.forgesphere.onboarding.model.BusinessUnitCollection;
 import com.probestack.forgesphere.onboarding.model.OnboardingApplication;
@@ -103,9 +104,13 @@ public class UserGatewayOrganizationsService {
                 }
                 if (gatewayOrganizationId.equals(g.getId())) {
                     var effectiveCfg = g.getEffectiveConfig();
-                    return new GatewayOrganizationEnvironmentTypeResponse(
-                            effectiveCfg != null ? effectiveCfg.getEnvironmentType() : null);
+                    GatewayOrganizationEnvironmentTypeResponse resp = new GatewayOrganizationEnvironmentTypeResponse();
+                    if (effectiveCfg != null) {
+                        resp.setSelectedEnvironments(effectiveCfg.getSelectedEnvironments());
+                    }
+                    return resp;
                 }
+
             }
         }
 

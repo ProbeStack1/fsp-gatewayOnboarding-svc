@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GatewayOrganizationEnvironmentTypeResponse {
-    private String environmentType;
+    private java.util.List<String> selectedEnvironments;
+
 }
+
 

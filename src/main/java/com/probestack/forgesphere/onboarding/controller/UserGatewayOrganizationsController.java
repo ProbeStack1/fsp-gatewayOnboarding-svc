@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.probestack.forgesphere.onboarding.constant.AppConstants;
 import com.probestack.forgesphere.onboarding.dto.ApiResponse;
 import com.probestack.forgesphere.onboarding.dto.GatewayOrganizationEnvironmentTypeResponse;
+
 import com.probestack.forgesphere.onboarding.dto.UserGatewayOrganizationsResponse;
 import com.probestack.forgesphere.onboarding.service.UserGatewayOrganizationsService;
 
@@ -41,8 +42,9 @@ public class UserGatewayOrganizationsController {
                     .body(ApiResponse.failure("Gateway organization not found", null));
         }
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.success("environmentType fetched successfully", resp));
+                .body(ApiResponse.success("selectedEnvironments fetched successfully", resp));
     }
+
 }
 
 
