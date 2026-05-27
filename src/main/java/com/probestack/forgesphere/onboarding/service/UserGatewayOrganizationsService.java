@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import com.probestack.forgesphere.onboarding.dto.GatewayOrganizationEnvironmentTypeResponse;
 import com.probestack.forgesphere.onboarding.dto.GatewayOrganizationResponse;
 import com.probestack.forgesphere.onboarding.dto.UserGatewayOrganizationsResponse;
 import com.probestack.forgesphere.onboarding.model.BusinessUnitCollection;
@@ -85,6 +86,32 @@ public class UserGatewayOrganizationsService {
         return resp;
     }
 
+    public GatewayOrganizationEnvironmentTypeResponse getEnvironmentTypeByGatewayOrganizationId(String gatewayOrganizationId) {
+        if (gatewayOrganizationId == null || gatewayOrganizationId.isBlank()) {
+            return null;
+        }
+
+        List<OnboardingApplication> allOnboardingApplications = onboardingRepository.findAll();
+        for (OnboardingApplication onboarding : allOnboardingApplications) {
+            if (onboarding == null || onboarding.getGatewayOrganizations() == null) {
+                continue;
+            }
+
+            for (OnboardingApplication.GatewayOrganizationRequest g : onboarding.getGatewayOrganizations()) {
+                if (g == null) {
+                    continue;
+                }
+                if (gatewayOrganizationId.equals(g.getId())) {
+                    var effectiveCfg = g.getEffectiveConfig();
+                    return new GatewayOrganizationEnvironmentTypeResponse(
+                            effectiveCfg != null ? effectiveCfg.getEnvironmentType() : null);
+                }
+            }
+        }
+
+        return null;
+    }
+
     private GatewayOrganizationResponse toResponse(OnboardingApplication.GatewayOrganizationRequest g) {
         GatewayOrganizationResponse out = new GatewayOrganizationResponse();
         if (g == null) {
@@ -93,7 +120,23 @@ public class UserGatewayOrganizationsService {
         out.setId(g.getId());
         out.setName(g.getName());
         out.setRegion(g.getRegion());
+
+        // Map config if present
+        var effectiveCfg = g.getEffectiveConfig();
+        if (effectiveCfg != null) {
+            GatewayOrganizationResponse.GatewayConfigResponse cfg = new GatewayOrganizationResponse.GatewayConfigResponse();
+            cfg.setEnvironmentType(effectiveCfg.getEnvironmentType());
+            cfg.setSelectedEnvironments(effectiveCfg.getSelectedEnvironments());
+            cfg.setCustomEnvironments(effectiveCfg.getCustomEnvironments());
+            cfg.setExpectedTps(effectiveCfg.getExpectedTps());
+            cfg.setExpectedApiRange(effectiveCfg.getExpectedApiRange());
+            cfg.setNotes(effectiveCfg.getNotes());
+            out.setConfig(cfg);
+        }
+
         return out;
     }
 }
+
+
 

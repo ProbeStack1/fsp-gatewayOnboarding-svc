@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.probestack.forgesphere.onboarding.constant.AppConstants;
 import com.probestack.forgesphere.onboarding.dto.ApiResponse;
+import com.probestack.forgesphere.onboarding.dto.GatewayOrganizationEnvironmentTypeResponse;
 import com.probestack.forgesphere.onboarding.dto.UserGatewayOrganizationsResponse;
 import com.probestack.forgesphere.onboarding.service.UserGatewayOrganizationsService;
 
@@ -30,5 +31,19 @@ public class UserGatewayOrganizationsController {
         UserGatewayOrganizationsResponse resp = service.getGatewayOrganizationsForUserEmail(userid);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success("Gateway organizations fetched successfully", resp));
     }
+
+    @GetMapping("/gateway-organizations/{gatewayOrganizationId}/environment-type")
+    public ResponseEntity<ApiResponse<GatewayOrganizationEnvironmentTypeResponse>> getEnvironmentTypeByGatewayOrganizationId(
+            @PathVariable String gatewayOrganizationId) {
+        GatewayOrganizationEnvironmentTypeResponse resp = service.getEnvironmentTypeByGatewayOrganizationId(gatewayOrganizationId);
+        if (resp == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.failure("Gateway organization not found", null));
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("environmentType fetched successfully", resp));
+    }
 }
+
+
 

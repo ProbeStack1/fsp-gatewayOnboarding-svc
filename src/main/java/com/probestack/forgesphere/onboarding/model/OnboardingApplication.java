@@ -76,11 +76,27 @@ public class OnboardingApplication {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class GatewayOrganizationRequest {
+public static class GatewayOrganizationRequest {
         private String id;
         private String name;
         private String region;
+
+        // Some historical docs may use different key casing/underscores.
+        // Keep the canonical field `config` but also allow a couple of alternates.
+        @org.springframework.data.mongodb.core.mapping.Field("config")
         private GatewayConfig config;
+
+        @org.springframework.data.mongodb.core.mapping.Field("gatewayConfig")
+        private GatewayConfig gatewayConfig;
+
+        @org.springframework.data.mongodb.core.mapping.Field("gateway_config")
+        private GatewayConfig gatewayConfigSnake;
+
+        public GatewayConfig getEffectiveConfig() {
+            if (config != null) return config;
+            if (gatewayConfig != null) return gatewayConfig;
+            return gatewayConfigSnake;
+        }
     }
 
     @Data
