@@ -31,5 +31,14 @@ public class UserGatewayOrganizationsBusinessUnitsController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("Business units fetched successfully", resp));
     }
+
+    @GetMapping("/user/{userid}/business-units")
+    public ResponseEntity<ApiResponse<UserGatewayOrganizationsBusinessUnitsResponse>> getBusinessUnitsForUser(
+            @PathVariable String userid) {
+        UserGatewayOrganizationsBusinessUnitsResponse resp = service.getBusinessUnitsForUser(userid);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("Business units fetched successfully", resp));
+    }
 }
+
 

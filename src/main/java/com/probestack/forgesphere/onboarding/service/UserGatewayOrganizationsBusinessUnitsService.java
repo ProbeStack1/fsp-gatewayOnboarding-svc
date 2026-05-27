@@ -89,7 +89,108 @@ public class UserGatewayOrganizationsBusinessUnitsService {
         return resp;
     }
 
+    public UserGatewayOrganizationsBusinessUnitsResponse getBusinessUnitsForUser(String userid) {
+        UserGatewayOrganizationsBusinessUnitsResponse resp = new UserGatewayOrganizationsBusinessUnitsResponse();
+        resp.setMember(false);
+        resp.setOnboardingIds(List.of());
+        resp.setGatewayOrganizations(List.of());
+        resp.setBusinessUnits(List.of());
+
+        if (userid == null || userid.isBlank()) {
+            return resp;
+        }
+
+        // Admin user: return all business units.
+        if (userid.toLowerCase().startsWith("admin@")) {
+            List<BusinessUnitResponse> businessUnits = new ArrayList<>();
+            Set<String> onboardingIds = new LinkedHashSet<>();
+
+            for (BusinessUnitCollection bu : businessUnitRepository.findAll()) {
+                if (bu == null) {
+                    continue;
+                }
+                if (bu.getOnboardingId() != null && !bu.getOnboardingId().isBlank()) {
+                    onboardingIds.add(bu.getOnboardingId());
+                }
+                BusinessUnitResponse mapped = toBusinessUnitResponse(bu);
+                if (mapped != null) {
+                    businessUnits.add(mapped);
+                }
+            }
+
+            List<GatewayOrganizationResponse> gatewayOrgs = resolveGatewayOrganizationsFromOnboardingIds(new ArrayList<>(onboardingIds));
+
+            resp.setMember(true);
+            resp.setOnboardingIds(new ArrayList<>(onboardingIds));
+            resp.setGatewayOrganizations(gatewayOrgs);
+            resp.setBusinessUnits(businessUnits);
+            return resp;
+        }
+
+        // Non-admin: business units where members[].email == userid
+        List<BusinessUnitCollection> matchingBusinessUnits = businessUnitRepository.findByMembersEmail(userid);
+        if (matchingBusinessUnits == null || matchingBusinessUnits.isEmpty()) {
+            return resp;
+        }
+
+        Set<String> onboardingIds = new LinkedHashSet<>();
+        List<BusinessUnitResponse> businessUnits = new ArrayList<>();
+
+        for (BusinessUnitCollection bu : matchingBusinessUnits) {
+            if (bu == null) {
+                continue;
+            }
+            if (bu.getOnboardingId() != null && !bu.getOnboardingId().isBlank()) {
+                onboardingIds.add(bu.getOnboardingId());
+            }
+            BusinessUnitResponse mapped = toBusinessUnitResponse(bu);
+            if (mapped != null) {
+                businessUnits.add(mapped);
+            }
+        }
+
+        List<GatewayOrganizationResponse> gatewayOrgs = resolveGatewayOrganizationsFromOnboardingIds(new ArrayList<>(onboardingIds));
+
+        resp.setMember(true);
+        resp.setOnboardingIds(new ArrayList<>(onboardingIds));
+        resp.setGatewayOrganizations(gatewayOrgs);
+        resp.setBusinessUnits(businessUnits);
+        return resp;
+    }
+
+    private List<GatewayOrganizationResponse> resolveGatewayOrganizationsFromOnboardingIds(List<String> onboardingIds) {
+        if (onboardingIds == null || onboardingIds.isEmpty()) {
+            return List.of();
+        }
+
+        List<GatewayOrganizationResponse> gatewayOrgs = new ArrayList<>();
+        Set<String> gatewayOrgIds = new LinkedHashSet<>();
+
+        for (String onboardingId : onboardingIds) {
+            if (onboardingId == null || onboardingId.isBlank()) {
+                continue;
+            }
+
+            OnboardingApplication onboarding = onboardingRepository.findById(onboardingId).orElse(null);
+            if (onboarding == null || onboarding.getGatewayOrganizations() == null) {
+                continue;
+            }
+
+            for (OnboardingApplication.GatewayOrganizationRequest g : onboarding.getGatewayOrganizations()) {
+                if (g == null || g.getId() == null) {
+                    continue;
+                }
+                if (gatewayOrgIds.add(g.getId())) {
+                    gatewayOrgs.add(toGatewayOrganizationResponse(g));
+                }
+            }
+        }
+
+        return gatewayOrgs;
+    }
+
     private GatewayOrganizationResponse toGatewayOrganizationResponse(OnboardingApplication.GatewayOrganizationRequest g) {
+
         GatewayOrganizationResponse out = new GatewayOrganizationResponse();
         out.setId(g.getId());
         out.setName(g.getName());
