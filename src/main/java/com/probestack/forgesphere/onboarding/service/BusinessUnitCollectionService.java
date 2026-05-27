@@ -195,6 +195,7 @@ public class BusinessUnitCollectionService {
         resp.setTeamName(entity.getTeamName());
         resp.setApplicationName(entity.getApplicationName());
         resp.setApplicationId(entity.getApplicationId());
+        resp.setOnboardingId(entity.getOnboardingId());
         resp.setProjectOwner(entity.getProjectOwner());
         resp.setOwnerEmail(entity.getOwnerEmail());
         resp.setProjectSME(entity.getProjectSME());
@@ -236,6 +237,7 @@ public class BusinessUnitCollectionService {
         entity.setTeamName(request.getTeamName());
         entity.setApplicationName(request.getApplicationName());
         entity.setApplicationId(request.getApplicationId());
+        entity.setOnboardingId(request.getOnboardingId());
 
         entity.setProjectOwner(request.getProjectOwner());
         entity.setOwnerEmail(request.getOwnerEmail());

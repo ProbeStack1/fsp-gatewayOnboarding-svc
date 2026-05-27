@@ -21,6 +21,8 @@ public class BusinessUnitRequest {
 
     private String applicationId;
 
+    private String onboardingId;
+
     private String projectOwner;
     private String ownerEmail;
     private String projectSME;

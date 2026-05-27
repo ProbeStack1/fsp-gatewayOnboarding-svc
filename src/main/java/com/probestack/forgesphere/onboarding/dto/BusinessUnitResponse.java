@@ -22,6 +22,8 @@ public class BusinessUnitResponse {
     private String applicationName;
     private String applicationId;
 
+    private String onboardingId;
+
     private String projectOwner;
     private String ownerEmail;
     private String projectSME;

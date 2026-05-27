@@ -20,6 +20,7 @@ public class BusinessUnitCollection {
     private String applicationName;
     private String applicationId;
 
+    private String onboardingId;
 
     private String projectOwner;
     private String ownerEmail;
@@ -85,6 +86,14 @@ public class BusinessUnitCollection {
 
     public void setApplicationId(String applicationId) {
         this.applicationId = applicationId;
+    }
+
+    public String getOnboardingId() {
+        return onboardingId;
+    }
+
+    public void setOnboardingId(String onboardingId) {
+        this.onboardingId = onboardingId;
     }
 
     public String getProjectOwner() {
