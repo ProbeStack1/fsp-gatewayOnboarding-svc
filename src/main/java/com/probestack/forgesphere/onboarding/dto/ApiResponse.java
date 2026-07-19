@@ -18,6 +18,7 @@ public class ApiResponse<T> {
     private String message;
 
     private T data;
+    
 
     public static <T> ApiResponse<T> success(String message, T data) {
         ApiResponse<T> resp = new ApiResponse<>();
